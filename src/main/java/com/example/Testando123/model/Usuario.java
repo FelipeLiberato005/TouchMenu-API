@@ -2,6 +2,9 @@ package com.example.Testando123.model;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "usuarios")
 public class Usuario {
@@ -23,20 +26,20 @@ public class Usuario {
     private String senha;
     private String email;
 
-    @OneToOne
-    @JoinColumn(name = "pedido_id")
-    private Pedido pedido;
+    @OneToMany(mappedBy = "usuario")
+    private List<Pedido> pedidos = new ArrayList<>();
+
 
     public long getId() {
         return id;
     }
 
-    public Pedido getPedido() {
-        return pedido;
+    public List<Pedido> getPedidos() {
+        return pedidos;
     }
 
-    public void setPedido(Pedido pedido) {
-        this.pedido = pedido;
+    public void setPedidos(List<Pedido> pedidos) {
+        this.pedidos = pedidos;
     }
 
     public String getUser() {
