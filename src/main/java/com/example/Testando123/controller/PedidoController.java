@@ -17,21 +17,25 @@ public class PedidoController {
     }
 
 
-    @PostMapping
-    public ResponseEntity<Pedido> registrarPedido(@RequestBody PedidoDto.ProdutosRequestDTO dados)
-    {
-        Pedido pedido = pedidoService.salvar(dados.status(),
-                                        dados.valorTotal(),
-                                        dados.tempoEstimado(),
-                                        dados.dataHora());
-
-        return ResponseEntity.ok(pedido);
-    }
-
+//    @PostMapping
+//    public ResponseEntity<Pedido> registrarPedido(@RequestBody PedidoDto.ProdutosRequestDTO dados)
+//    {
+//        Pedido pedido = pedidoService.salvar(dados.status(),
+//                                        dados.valorTotal(),
+//                                        dados.tempoEstimado(),
+//                                        dados.dataHora());
+//
+//        return ResponseEntity.ok(pedido);
+//    }
 
     @GetMapping("{id}")
     public void imprimirPedido(@PathVariable Long id)
     {
         pedidoService.imprime(id);
+    }
+
+    @PostMapping("/usuarios/{id}")
+    public Pedido criarPedido(@PathVariable Long id, @RequestBody Pedido pedido) {
+        return pedidoService.criarPedido(id, pedido.getTempoEstimado(), pedido.getDataHora(), pedido.getStatus(), pedido.getValorTotal());
     }
 }

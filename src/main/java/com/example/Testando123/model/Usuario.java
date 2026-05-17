@@ -15,7 +15,14 @@ public class Usuario {
         this.email = email;
     }
 
-    public Usuario(String nome, String descricao, double valorTotal, long tempoEstimado) {
+    public Usuario(String user, String senha, String email, List<Pedido> pedidos) {
+        this.user = user;
+        this.senha = senha;
+        this.email = email;
+        this.pedidos = pedidos;
+    }
+
+    public Usuario() {
     }
 
     @Id
@@ -26,7 +33,7 @@ public class Usuario {
     private String senha;
     private String email;
 
-    @OneToMany(mappedBy = "usuario")
+    @OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Pedido> pedidos = new ArrayList<>();
 
 
@@ -65,4 +72,6 @@ public class Usuario {
     public void setEmail(String email) {
         this.email = email;
     }
+
+
 }

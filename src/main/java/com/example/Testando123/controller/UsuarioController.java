@@ -1,13 +1,16 @@
 package com.example.Testando123.controller;
 
+import com.example.Testando123.DTO.PedidoDto;
 import com.example.Testando123.DTO.UsuarioDto;
 import com.example.Testando123.Exceptions.EmailInvalido;
 import com.example.Testando123.Filtr.FiltroEmail;
+import com.example.Testando123.model.Pedido;
 import com.example.Testando123.model.Usuario;
 import com.example.Testando123.service.UsuarioService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -56,5 +59,16 @@ public class UsuarioController {
     {
         usuarioService.delete(id);
     }
+
+
+    @GetMapping("pedidosUser/{id}")
+    public ResponseEntity<List<Pedido>> buscarPedido(@PathVariable Long id)
+    {
+        List<Pedido> pedidos = usuarioService.listPedido(id);
+        return ResponseEntity.ok(pedidos);
+    }
+
+
+
 
 }

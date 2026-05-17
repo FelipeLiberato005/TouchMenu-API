@@ -1,5 +1,6 @@
 package com.example.Testando123.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -15,6 +16,14 @@ public class Pedido {
         this.dataHora = dataHora;
     }
 
+    public Pedido(String status, double valorTotal, long tempoEstimado, String dataHora, Usuario usuario) {
+        this.status = status;
+        this.valorTotal = valorTotal;
+        this.tempoEstimado = tempoEstimado;
+        this.dataHora = dataHora;
+        this.usuario = usuario;
+    }
+
     public Pedido() {
     }
 
@@ -27,6 +36,7 @@ public class Pedido {
     private long tempoEstimado;
     private String dataHora;
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
 
