@@ -16,18 +16,6 @@ public class PedidoController {
         this.pedidoService = pedidoService;
     }
 
-
-//    @PostMapping
-//    public ResponseEntity<Pedido> registrarPedido(@RequestBody PedidoDto.ProdutosRequestDTO dados)
-//    {
-//        Pedido pedido = pedidoService.salvar(dados.status(),
-//                                        dados.valorTotal(),
-//                                        dados.tempoEstimado(),
-//                                        dados.dataHora());
-//
-//        return ResponseEntity.ok(pedido);
-//    }
-
     @GetMapping("{id}")
     public void imprimirPedido(@PathVariable Long id)
     {
@@ -35,7 +23,15 @@ public class PedidoController {
     }
 
     @PostMapping("/usuarios/{id}")
-    public Pedido criarPedido(@PathVariable Long id, @RequestBody Pedido pedido) {
-        return pedidoService.criarPedido(id, pedido.getTempoEstimado(), pedido.getDataHora(), pedido.getStatus(), pedido.getValorTotal());
+    public ResponseEntity<Pedido> criarPedido(@PathVariable Long id, @RequestBody Pedido pedido) {
+        Pedido pedido1 = pedidoService.criarPedido(id, pedido.getTempoEstimado(), pedido.getStatus(), pedido.getValorTotal());
+        return ResponseEntity.status(201).body(pedido1);
     }
+
+    @PatchMapping("/alterarPedido/{id}")
+    public void mudaStatus(@PathVariable Long id, @RequestBody Pedido pedido)
+    {
+            pedidoService.mudaStatus(id, pedido.getStatus());
+    }
+
 }

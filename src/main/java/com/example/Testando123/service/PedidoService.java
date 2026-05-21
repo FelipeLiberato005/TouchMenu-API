@@ -6,7 +6,9 @@ import com.example.Testando123.repository.PedidoRepository;
 import com.example.Testando123.repository.UsuarioRepository;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.Collections;
+import java.util.Date;
 
 @Service
 public class PedidoService {
@@ -24,14 +26,19 @@ public class PedidoService {
 
     public void imprime(Long id)
     {
-        pedidoRepository.findById(id);
+        pedidoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Pedido não existe"));
     }
 
 
-    public Pedido criarPedido(Long usuarioId, long tempoEstimado, String dataHora, String status, Double valor) {
+    public Pedido criarPedido(Long usuarioId, long tempoEstimado, String status, Double valor) {
 
         Usuario usuario = usuarioRepository.findById(usuarioId)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+
+        String pattern = "HH:mm:ss 'de' dd 'de' MMMM 'de' yyyy";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+        String dataHora = simpleDateFormat.format(new Date());
 
         Pedido pedido = new Pedido();
         pedido.setValorTotal(valor);
@@ -43,4 +50,14 @@ public class PedidoService {
 
         return pedidoRepository.save(pedido);
     }
+
+    public Pedido mudaStatus(Long id, String novoStatus)
+    {
+        Pedido pedido = pedidoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Pedido não existe"));
+        pedido.setStatus(novoStatus);
+        return  pedidoRepository.save(pedido);
+    }
+
+
 }
