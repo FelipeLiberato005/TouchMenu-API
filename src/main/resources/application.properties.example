@@ -1,0 +1,19 @@
+spring.application.name=Testando123
+spring.datasource.url=jdbc:postgresql:
+spring.datasource.username=postgres
+spring.datasource.password=SUA_SENHA
+
+#Enderço local do spring
+server.address=0.0.0.0
+server.port=8080
+
+
+#Drives postgre
+spring.datasource.driver-class-name=org.postgresql.Driver
+
+
+#Configura do hibernate
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.format_sql=true
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
