@@ -29,6 +29,7 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Column(name = "nome_usuario")
     private String user;
     private String senha;
     private String email;

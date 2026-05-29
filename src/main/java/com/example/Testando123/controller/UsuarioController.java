@@ -7,14 +7,18 @@ import com.example.Testando123.Filtr.FiltroEmail;
 import com.example.Testando123.model.Pedido;
 import com.example.Testando123.model.Usuario;
 import com.example.Testando123.service.UsuarioService;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
 
 @RestController
 @RequestMapping
+@Valid
 @CrossOrigin(origins = "*")
 public class UsuarioController {
 
@@ -25,28 +29,14 @@ public class UsuarioController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<Usuario> register(@RequestBody UsuarioDto.UsuarioRequestDTO dados)
-    {
-        FiltroEmail filtroEmail = new FiltroEmail();
-        try {
-            boolean b = filtroEmail.filtraTel(dados.email());
-            if (b == true && dados.user()!=null)
-            {
-                Usuario usuarioSalvo = usuarioService.resgistraUsuario(dados.user(), dados.senha(), dados.email());
+// 1. Adicionado o @Valid para ativar as validações do seu Record
+    public ResponseEntity<Usuario> register(@Valid @RequestBody UsuarioDto.UsuarioRequestDTO dados) throws EmailInvalido {
 
-                return ResponseEntity.ok(usuarioSalvo);
-            }
-            else
-            {
-                throw new EmailInvalido();
-            }
 
-        } catch (EmailInvalido e) {
-            e.printStackTrace();
-        }
-
-        return null;
+        Usuario usuarioSalvo = usuarioService.resgistraUsuario(dados.user(), dados.senha(), dados.email());
+        return ResponseEntity.ok(usuarioSalvo);
     }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<?> buscarUser(@PathVariable Long id)
