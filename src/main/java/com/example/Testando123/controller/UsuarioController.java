@@ -1,5 +1,7 @@
 package com.example.Testando123.controller;
 
+import com.example.Testando123.DTO.LoginDto;
+import com.example.Testando123.DTO.LoginUserEmailDto;
 import com.example.Testando123.DTO.PedidoDto;
 import com.example.Testando123.DTO.UsuarioDto;
 import com.example.Testando123.Exceptions.EmailInvalido;
@@ -60,6 +62,22 @@ public class UsuarioController {
     }
 
 
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody LoginDto.UsuarioResponseDTO dados) {
+        Optional<Usuario> usuario = usuarioService.fazLogin(dados.email(), dados.senha());
 
+        if (usuario.isPresent()) {
+            Usuario u = usuario.get();
+            LoginUserEmailDto.UsuarioResponseDTO resposta =
+                    new LoginUserEmailDto.UsuarioResponseDTO(
+                    u.getId(),
+                    u.getEmail(),
+                    u.getUser()
+            );
+            return ResponseEntity.ok(resposta);
 
+        }
+
+        return ResponseEntity.status(401).body("Email ou Senha invalido");
+    }
 }

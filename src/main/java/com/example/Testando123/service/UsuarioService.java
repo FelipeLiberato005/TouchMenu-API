@@ -48,6 +48,11 @@ public class UsuarioService {
 
     }
 
+    public Optional<Usuario> fazLogin(String email, String senha)
+    {
+        return usuarioRepository.findByEmailAndSenha(email, senha);
+    }
+
 
 
 }
